@@ -12,17 +12,19 @@ class VoertuigWijzigenTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_voertuiggegevens_worden_gewijzigd_via_stored_procedure(): void
+    public function test_voertuiggegevens_worden_gewijzigd(): void
     {
-        DB::statement('CALL sp_update_voertuig(?, ?, ?, ?, ?, ?, ?)', [
-            5,
-            10,
-            'DRS-52-E',
-            'Vespa Piaggio',
-            'Elektrisch',
-            4,
-            5,
-        ]);
+        $user = User::factory()->create(['role' => 'admin']);
+
+        $this->actingAs($user)
+            ->put(route('instructeurs.voertuigen.update', [5, 10]), [
+                'Kenteken' => 'DRS-52-E',
+                'Type' => 'Vespa Piaggio',
+                'Brandstof' => 'Elektrisch',
+                'TypeVoertuigId' => 4,
+                'InstructeurId' => 5,
+            ])
+            ->assertRedirect(route('instructeurs.voertuigen.index', 5));
 
         $this->assertDatabaseHas('voertuigen', [
             'Id' => 10,
@@ -35,19 +37,23 @@ class VoertuigWijzigenTest extends TestCase
 
     public function test_voertuig_kan_naar_andere_instructeur_worden_verplaatst(): void
     {
-        DB::statement('CALL sp_update_voertuig(?, ?, ?, ?, ?, ?, ?)', [
-            5,
-            10,
-            'DRS-52-P',
-            'Vespa',
-            'Benzine',
-            4,
-            4,
-        ]);
+        $user = User::factory()->create(['role' => 'admin']);
 
-        $voertuigenVanMohammed = collect(DB::select('CALL sp_get_voertuigen_bij_instructeur(?)', [5]));
+        $this->actingAs($user)
+            ->put(route('instructeurs.voertuigen.update', [5, 10]), [
+                'Kenteken' => 'DRS-52-P',
+                'Type' => 'Vespa',
+                'Brandstof' => 'Benzine',
+                'TypeVoertuigId' => 4,
+                'InstructeurId' => 4,
+            ])
+            ->assertRedirect(route('instructeurs.voertuigen.index', 5));
 
-        $this->assertFalse($voertuigenVanMohammed->contains('Id', 10));
+        $voertuigenVanMohammed = collect(DB::table('voertuig_instructeur')
+            ->where('InstructeurId', 5)
+            ->pluck('VoertuigId'));
+
+        $this->assertFalse($voertuigenVanMohammed->contains(10));
         $this->assertDatabaseHas('voertuig_instructeur', [
             'VoertuigId' => 10,
             'InstructeurId' => 4,
@@ -56,17 +62,18 @@ class VoertuigWijzigenTest extends TestCase
 
     public function test_beschikbaar_voertuig_wordt_toegewezen_zonder_bouwjaar_te_wijzigen(): void
     {
+        $user = User::factory()->create(['role' => 'admin']);
         $bouwjaar = Voertuig::findOrFail(11)->Bouwjaar->format('Y-m-d');
 
-        DB::statement('CALL sp_update_voertuig(?, ?, ?, ?, ?, ?, ?)', [
-            5,
-            11,
-            'STP-12-U',
-            'Kymco',
-            'Elektrisch',
-            4,
-            5,
-        ]);
+        $this->actingAs($user)
+            ->put(route('instructeurs.voertuigen.update', [5, 11]), [
+                'Kenteken' => 'STP-12-U',
+                'Type' => 'Kymco',
+                'Brandstof' => 'Elektrisch',
+                'TypeVoertuigId' => 4,
+                'InstructeurId' => 5,
+            ])
+            ->assertRedirect(route('instructeurs.voertuigen.index', 5));
 
         $this->assertDatabaseHas('voertuigen', [
             'Id' => 11,

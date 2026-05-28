@@ -14,23 +14,73 @@ class VoertuigController extends Controller
 {
     public function index(Instructeur $instructeur)
     {
+        $voertuigen = DB::table('voertuigen as v')
+            ->select([
+                'v.Id',
+                'v.Kenteken',
+                'v.Type',
+                'v.Bouwjaar',
+                'v.Brandstof',
+                'tv.TypeVoertuig',
+                'tv.Rijbewijscategorie',
+                'vi.DatumToekenning',
+            ])
+            ->join('voertuig_instructeur as vi', 'vi.VoertuigId', 'v.Id')
+            ->join('type_voertuigen as tv', 'tv.Id', 'v.TypeVoertuigId')
+            ->where('vi.InstructeurId', $instructeur->Id)
+            ->where('v.IsActief', 1)
+            ->where('vi.IsActief', 1)
+            ->orderBy('tv.Rijbewijscategorie')
+            ->orderBy('v.Type')
+            ->get();
+
         return view('voertuigen.index', [
             'instructeur' => $instructeur,
-            'voertuigen' => DB::select('CALL sp_get_voertuigen_bij_instructeur(?)', [$instructeur->Id]),
+            'voertuigen' => $voertuigen,
         ]);
     }
 
     public function beschikbaar(Instructeur $instructeur)
     {
+        $voertuigen = DB::table('voertuigen as v')
+            ->select([
+                'v.Id',
+                'v.Kenteken',
+                'v.Type',
+                'v.Bouwjaar',
+                'v.Brandstof',
+                'tv.TypeVoertuig',
+                'tv.Rijbewijscategorie',
+            ])
+            ->join('type_voertuigen as tv', 'tv.Id', 'v.TypeVoertuigId')
+            ->leftJoin('voertuig_instructeur as vi', 'vi.VoertuigId', 'v.Id')
+            ->whereNull('vi.Id')
+            ->where('v.IsActief', 1)
+            ->orderBy('tv.Rijbewijscategorie')
+            ->orderBy('v.Type')
+            ->get();
+
         return view('voertuigen.beschikbaar', [
             'instructeur' => $instructeur,
-            'voertuigen' => DB::select('CALL sp_get_beschikbare_voertuigen()'),
+            'voertuigen' => $voertuigen,
         ]);
     }
 
     public function edit(Instructeur $instructeur, Voertuig $voertuig)
     {
-        $details = DB::selectOne('CALL sp_get_voertuig_edit(?)', [$voertuig->Id]);
+        $details = DB::table('voertuigen as v')
+            ->select([
+                'v.Id',
+                'v.Kenteken',
+                'v.Type',
+                'v.Bouwjaar',
+                'v.Brandstof',
+                'v.TypeVoertuigId',
+                'vi.InstructeurId',
+            ])
+            ->leftJoin('voertuig_instructeur as vi', 'vi.VoertuigId', 'v.Id')
+            ->where('v.Id', $voertuig->Id)
+            ->first();
 
         abort_if($details === null, 404);
 
@@ -53,15 +103,40 @@ class VoertuigController extends Controller
             'InstructeurId' => ['required', 'exists:instructeurs,Id'],
         ]);
 
-        DB::statement('CALL sp_update_voertuig(?, ?, ?, ?, ?, ?, ?)', [
-            $instructeur->Id,
-            $voertuig->Id,
-            $data['Kenteken'],
-            $data['Type'],
-            $data['Brandstof'],
-            $data['TypeVoertuigId'],
-            $data['InstructeurId'],
-        ]);
+        DB::transaction(function () use ($voertuig, $data, $request) {
+            DB::table('voertuigen')
+                ->where('Id', $voertuig->Id)
+                ->update([
+                    'Kenteken' => $data['Kenteken'],
+                    'Type' => $data['Type'],
+                    'Brandstof' => $data['Brandstof'],
+                    'TypeVoertuigId' => $data['TypeVoertuigId'],
+                    'DatumGewijzigd' => now(),
+                ]);
+
+            $existing = DB::table('voertuig_instructeur')
+                ->where('VoertuigId', $voertuig->Id)
+                ->first();
+
+            if ($existing) {
+                DB::table('voertuig_instructeur')
+                    ->where('Id', $existing->Id)
+                    ->update([
+                        'InstructeurId' => $data['InstructeurId'],
+                        'IsActief' => 1,
+                        'DatumGewijzigd' => now(),
+                    ]);
+            } else {
+                DB::table('voertuig_instructeur')->insert([
+                    'VoertuigId' => $voertuig->Id,
+                    'InstructeurId' => $data['InstructeurId'],
+                    'DatumToekenning' => now()->toDateString(),
+                    'IsActief' => 1,
+                    'DatumAangemaakt' => now(),
+                    'DatumGewijzigd' => now(),
+                ]);
+            }
+        });
 
         return redirect()
             ->route('instructeurs.voertuigen.index', $instructeur)

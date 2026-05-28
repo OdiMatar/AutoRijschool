@@ -693,6 +693,26 @@ namespace App\Models {
     /**
      * App\Models\Lesrijpakket
      *
+     * @property \Illuminate\Support\Carbon|null $DatumGewijzigd
+     * @property \Illuminate\Support\Carbon|null $DatumAangemaakt
+     * @property string|null $Opmerking
+     * @property boolean $IsActief
+     * @property string|null $Categorie
+     * @property int $Lessen
+     * @property float $Prijs
+     * @property string|null $Beschrijving
+     * @property string $Naam
+     * @property int $id
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket whereNaam($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket whereBeschrijving($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket wherePrijs($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket whereLessen($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket whereCategorie($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket whereIsactief($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket whereOpmerking($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket whereDatumaangemaakt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket whereDatumgewijzigd($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Lesrijpakket>|Lesrijpakket query()

@@ -3,17 +3,17 @@
         <div class="bg-white border rounded-3 p-4 p-md-5 mb-4">
             <h1 class="h3 mb-3">Welkom bij Rijschool Vierkante Wielen</h1>
             <p class="text-muted mb-4">
-                Dit dashboard helpt je om instructeurs en voertuigen overzichtelijk te beheren.
+                Dit dashboard helpt je om lesrijpakketten en voertuigen overzichtelijk te beheren.
             </p>
-            <a class="btn btn-primary" href="{{ route('instructeurs.index') }}">Ga naar instructeurs</a>
+            <a class="btn btn-primary" href="{{ route('lesrijpakketten.index') }}">Lesrijpakketten Overzicht</a>
         </div>
 
         <div class="row g-3">
             <div class="col-md-4">
                 <div class="card h-100">
                     <div class="card-body">
-                        <h2 class="h6 card-title">Instructeurs</h2>
-                        <p class="card-text text-muted mb-0">Bekijk alle instructeurs en hun basisgegevens.</p>
+                        <h2 class="h6 card-title">Lesrijpakketten</h2>
+                        <p class="card-text text-muted mb-0">Bekijk alle beschikbare lesrijpakketten en hun details.</p>
                     </div>
                 </div>
             </div>

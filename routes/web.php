@@ -5,6 +5,7 @@ use App\Http\Controllers\AccountController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InstructeurController;
 use App\Http\Controllers\VoertuigController;
+use App\Http\Controllers\LesrijpakketController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('guest')->group(function (): void {
@@ -23,6 +24,7 @@ Route::middleware('auth')->group(function (): void {
         ->middleware('admin.only')
         ->name('accounts.index');
 
+    Route::get('/lespakketten', [LesrijpakketController::class, 'index'])->name('lesrijpakketten.index');
     Route::get('/instructeurs', [InstructeurController::class, 'index'])->name('instructeurs.index');
     Route::get('/instructeurs/{instructeur}/voertuigen', [VoertuigController::class, 'index'])->name('instructeurs.voertuigen.index');
 

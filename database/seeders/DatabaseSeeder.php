@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Instructeur;
 use App\Models\TypeVoertuig;
-use App\Models\User;
 use App\Models\Voertuig;
 use App\Models\VoertuigInstructeur;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,33 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Administrator Autorijschool',
-            'email' => 'administrator@autorijschool.test',
-            'password' => 'password',
-            'role' => 'administrator',
-        ]);
-
-        User::create([
-            'name' => 'Instructeur Demo',
-            'email' => 'instructeur@autorijschool.test',
-            'password' => 'password',
-            'role' => 'instructeur',
-        ]);
-
-        User::create([
-            'name' => 'Leerling Demo',
-            'email' => 'leerling@autorijschool.test',
-            'password' => 'password',
-            'role' => 'leerling',
-        ]);
-
-        User::create([
-            'name' => 'Administrator Backup',
-            'email' => 'admin@autorijschool.test',
-            'password' => 'password',
-            'role' => 'administrator',
-        ]);
+        $this->call(AccountSeeder::class);
 
         TypeVoertuig::insert([
             ['Id' => 1, 'TypeVoertuig' => 'Personenauto', 'Rijbewijscategorie' => 'B', 'IsActief' => true],

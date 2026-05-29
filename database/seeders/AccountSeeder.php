@@ -35,11 +35,5 @@ class AccountSeeder extends Seeder
             'role' => 'leerling',
         ]);
 
-        User::create([
-            'name' => 'Administrator Backup',
-            'email' => 'administrator@autorijschool.test',
-            'password' => 'password',
-            'role' => 'administrator',
-        ]);
     }
 }

@@ -1,4 +1,4 @@
-<!doctype html>
+﻿<!doctype html>
 <html lang="nl">
 <head>
     <meta charset="utf-8">
@@ -21,7 +21,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <?php if(auth()->guard()->check()): ?>
                         <li class="nav-item"><a class="nav-link" href="<?php echo e(route('home')); ?>">Dashboard</a></li>
-                        <li class="nav-item"><a class="nav-link" href="<?php echo e(route('lesrijpakketten.index')); ?>">Lesrijpakketten Overzicht</a></li>
+                        <li class="nav-item"><a class="nav-link" href="<?php echo e(route('lesrijpakketten.index')); ?>">Lespakketten Overzicht</a></li>
                         <li class="nav-item"><a class="nav-link" href="<?php echo e(route('instructeurs.index')); ?>">Instructeurs</a></li>
                         <?php if(auth()->user()->role === 'administrator'): ?>
                             <li class="nav-item"><a class="nav-link" href="<?php echo e(route('accounts.index')); ?>">Accounts</a></li>

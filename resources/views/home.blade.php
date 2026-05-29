@@ -1,11 +1,11 @@
-<x-layout title="Home">
+﻿<x-layout title="Home">
     <div class="container p-0">
         <div class="bg-white border rounded-3 p-4 p-md-5 mb-4">
             <h1 class="h3 mb-3">Welkom bij Rijschool Vierkante Wielen</h1>
             <p class="text-muted mb-4">
                 Dit dashboard helpt je om lesrijpakketten en voertuigen overzichtelijk te beheren.
             </p>
-            <a class="btn btn-primary" href="{{ route('lesrijpakketten.index') }}">Lesrijpakketten Overzicht</a>
+            <a class="btn btn-primary" href="{{ route('lesrijpakketten.index') }}">Lespakketten Overzicht</a>
         </div>
 
         <div class="row g-3">

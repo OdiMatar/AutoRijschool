@@ -21,6 +21,7 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     @auth
                         <li class="nav-item"><a class="nav-link" href="{{ route('home') }}">Dashboard</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{{ route('lesrijpakketten.index') }}">Lesrijpakketten Overzicht</a></li>
                         <li class="nav-item"><a class="nav-link" href="{{ route('instructeurs.index') }}">Instructeurs</a></li>
                         @if (auth()->user()->role === 'administrator')
                             <li class="nav-item"><a class="nav-link" href="{{ route('accounts.index') }}">Accounts</a></li>

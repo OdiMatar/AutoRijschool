@@ -7,6 +7,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (DB::getDriverName() !== 'mysql') {
+            return;
+        }
+
         DB::unprepared(<<<'SQL'
 DROP PROCEDURE IF EXISTS sp_get_accounts_overzicht;
 CREATE PROCEDURE sp_get_accounts_overzicht()
@@ -20,6 +24,10 @@ SQL);
 
     public function down(): void
     {
+        if (DB::getDriverName() !== 'mysql') {
+            return;
+        }
+
         DB::unprepared('DROP PROCEDURE IF EXISTS sp_get_accounts_overzicht');
     }
 };

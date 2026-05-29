@@ -15,32 +15,32 @@
         </div>
     </section>
 
-    <?php if($accounts->isEmpty()): ?>
-        <div class="alert alert-info mb-0">er zijn geen Accounts op dit moment</div>
-    <?php else: ?>
-        <div class="table-responsive bg-white border rounded-3">
-            <table class="table table-striped table-hover align-middle mb-0">
-                <thead>
-                    <tr>
-                        <th>Naam</th>
-                        <th>E-mailadres</th>
-                        <th>Rol</th>
-                        <th>Geregistreerd op</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                        <tr>
-                            <td><?php echo e($account->name); ?></td>
-                            <td><?php echo e($account->email); ?></td>
-                            <td><span class="badge text-bg-light border"><?php echo e(ucfirst($account->role)); ?></span></td>
-                            <td><?php echo e(\Illuminate\Support\Carbon::parse($account->created_at)->format('d-m-Y H:i')); ?></td>
-                        </tr>
-                    <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-                </tbody>
-            </table>
-        </div>
+    <?php if($accounts->count() === 1 && $accounts->first()->role === 'administrator'): ?>
+        <div class="alert alert-info mb-3">Er zijn geen accounts behalve de adminaccount.</div>
     <?php endif; ?>
+
+    <div class="table-responsive bg-white border rounded-3">
+        <table class="table table-striped table-hover align-middle mb-0">
+            <thead>
+                <tr>
+                    <th>Naam</th>
+                    <th>E-mailadres</th>
+                    <th>Rol</th>
+                    <th>Geregistreerd op</th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php $__currentLoopData = $accounts; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $account): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                    <tr>
+                        <td><?php echo e($account->name); ?></td>
+                        <td><?php echo e($account->email); ?></td>
+                        <td><span class="badge text-bg-light border"><?php echo e(ucfirst($account->role)); ?></span></td>
+                        <td><?php echo e(\Illuminate\Support\Carbon::parse($account->created_at)->format('d-m-Y H:i')); ?></td>
+                    </tr>
+                <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+            </tbody>
+        </table>
+    </div>
  <?php echo $__env->renderComponent(); ?>
 <?php endif; ?>
 <?php if (isset($__attributesOriginal23a33f287873b564aaf305a1526eada4)): ?>

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Instructeur;
 use App\Models\TypeVoertuig;
-use App\Models\User;
 use App\Models\Voertuig;
 use App\Models\VoertuigInstructeur;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,26 +18,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        User::create([
-            'name' => 'Owner Autorijschool',
-            'email' => 'owner@autorijschool.test',
-            'password' => 'password',
-            'role' => 'owner',
-        ]);
-
-        User::create([
-            'name' => 'Admin Autorijschool',
-            'email' => 'admin@autorijschool.test',
-            'password' => 'password',
-            'role' => 'admin',
-        ]);
-
-        User::create([
-            'name' => 'Instructeur Demo',
-            'email' => 'instructeur@autorijschool.test',
-            'password' => 'password',
-            'role' => 'instructeur',
-        ]);
+        $this->call(AccountSeeder::class);
 
         TypeVoertuig::insert([
             ['Id' => 1, 'TypeVoertuig' => 'Personenauto', 'Rijbewijscategorie' => 'B', 'IsActief' => true],
@@ -78,6 +58,64 @@ class DatabaseSeeder extends Seeder
             ['Id' => 5, 'VoertuigId' => 5, 'InstructeurId' => 1, 'DatumToekenning' => '2019-08-30', 'IsActief' => true],
             ['Id' => 6, 'VoertuigId' => 10, 'InstructeurId' => 5, 'DatumToekenning' => '2020-02-02', 'IsActief' => true],
             ['Id' => 7, 'VoertuigId' => 2, 'InstructeurId' => 5, 'DatumToekenning' => '2020-03-12', 'IsActief' => true],
+        ]);
+
+        \Illuminate\Support\Facades\DB::table('lesrijpakkets')->insert([
+            [
+                'Naam' => 'Basis Pakket',
+                'Beschrijving' => 'Perfecte start voor beginners. Dit pakket bevat de fundamentele rijlessen voor leerlingrijders.',
+                'Prijs' => 549.99,
+                'Lessen' => 10,
+                'Categorie' => 'Beginners',
+                'IsActief' => 1,
+                'Opmerking' => 'Populair startpakket',
+                'DatumAangemaakt' => now(),
+                'DatumGewijzigd' => now(),
+            ],
+            [
+                'Naam' => 'Standaard Pakket',
+                'Beschrijving' => 'Het meest gekozen pakket met een goede balans tussen aantal lessen en prijs.',
+                'Prijs' => 999.99,
+                'Lessen' => 20,
+                'Categorie' => 'Standaard',
+                'IsActief' => 1,
+                'Opmerking' => 'Best-seller pakket',
+                'DatumAangemaakt' => now(),
+                'DatumGewijzigd' => now(),
+            ],
+            [
+                'Naam' => 'Premium Pakket',
+                'Beschrijving' => 'Uitgebreide training met extra oefentijd op het verkeerspark en snelwegtraining.',
+                'Prijs' => 1699.99,
+                'Lessen' => 35,
+                'Categorie' => 'Premium',
+                'IsActief' => 1,
+                'Opmerking' => 'Inclusief snelwegtraining',
+                'DatumAangemaakt' => now(),
+                'DatumGewijzigd' => now(),
+            ],
+            [
+                'Naam' => 'Intensief Pakket',
+                'Beschrijving' => 'Voor cursisten die snel willen slagen. Meerdere lessen per week met intensieve begeleiding.',
+                'Prijs' => 2299.99,
+                'Lessen' => 50,
+                'Categorie' => 'Intensief',
+                'IsActief' => 1,
+                'Opmerking' => 'Flexibele inplanning',
+                'DatumAangemaakt' => now(),
+                'DatumGewijzigd' => now(),
+            ],
+            [
+                'Naam' => 'Extra Lessen',
+                'Beschrijving' => 'Enkele extra rijlessen voor cursisten die meer oefening nodig hebben.',
+                'Prijs' => 59.99,
+                'Lessen' => 1,
+                'Categorie' => 'Extra',
+                'IsActief' => 1,
+                'Opmerking' => 'Losse lessen',
+                'DatumAangemaakt' => now(),
+                'DatumGewijzigd' => now(),
+            ],
         ]);
     }
 }

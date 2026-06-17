@@ -14,11 +14,14 @@ class VoertuigInstructeur extends Pivot
     public $incrementing = true;
 
     const CREATED_AT = 'DatumAangemaakt';
+
     const UPDATED_AT = 'DatumGewijzigd';
 
     protected $fillable = [
         'VoertuigId',
         'InstructeurId',
+        'VerlofInstructeurId',
+        'VerlofAangemeldOp',
         'DatumToekenning',
         'IsActief',
         'Opmerking',
@@ -27,6 +30,7 @@ class VoertuigInstructeur extends Pivot
     protected $casts = [
         'DatumToekenning' => 'date',
         'IsActief' => 'boolean',
+        'VerlofAangemeldOp' => 'datetime',
         'DatumAangemaakt' => 'datetime',
         'DatumGewijzigd' => 'datetime',
     ];

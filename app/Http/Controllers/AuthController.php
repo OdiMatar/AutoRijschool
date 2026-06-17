@@ -37,7 +37,11 @@ class AuthController extends Controller
     public function showRegister(): View
     {
         return view('auth.register', [
-            'roles' => ['instructeur' => 'Instructeur', 'admin' => 'Admin', 'owner' => 'Owner'],
+            'roles' => [
+                'administrator' => 'Administrator',
+                'instructeur' => 'Instructeur',
+                'leerling' => 'Leerling',
+            ],
         ]);
     }
 
@@ -46,7 +50,7 @@ class AuthController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'role' => ['required', Rule::in(['instructeur', 'admin', 'owner'])],
+            'role' => ['required', Rule::in(['administrator', 'instructeur', 'leerling'])],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ]);
 

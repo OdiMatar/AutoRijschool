@@ -32,6 +32,6 @@ class User extends Authenticatable
 
     public function canManageVehicles(): bool
     {
-        return in_array($this->role, ['owner', 'admin'], true);
+        return $this->role === 'administrator';
     }
 }

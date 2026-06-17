@@ -91,7 +91,7 @@ class VoertuigWijzigenTest extends TestCase
 
     public function test_admin_mag_wijzigpagina_openen(): void
     {
-        $user = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create(['role' => 'administrator']);
 
         $this->actingAs($user)
             ->get(route('instructeurs.voertuigen.edit', [5, 10]))
@@ -101,7 +101,7 @@ class VoertuigWijzigenTest extends TestCase
 
     public function test_toegewezen_voertuig_verwijderen_bij_instructeur_maakt_het_beschikbaar(): void
     {
-        $user = User::factory()->create(['role' => 'owner']);
+        $user = User::factory()->create(['role' => 'administrator']);
 
         $this->actingAs($user)
             ->delete(route('instructeurs.voertuigen.destroy', [5, 10]))
@@ -120,7 +120,7 @@ class VoertuigWijzigenTest extends TestCase
 
     public function test_toegewezen_voertuig_verwijderen_uit_alle_voertuigen_zet_voertuig_non_actief(): void
     {
-        $user = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create(['role' => 'administrator']);
 
         $this->actingAs($user)
             ->delete(route('voertuigen.destroy', 10))
@@ -139,7 +139,7 @@ class VoertuigWijzigenTest extends TestCase
 
     public function test_niet_toegewezen_voertuig_kan_niet_worden_verwijderd_uit_alle_voertuigen(): void
     {
-        $user = User::factory()->create(['role' => 'admin']);
+        $user = User::factory()->create(['role' => 'administrator']);
 
         $this->actingAs($user)
             ->delete(route('voertuigen.destroy', 11))

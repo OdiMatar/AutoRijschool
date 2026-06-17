@@ -1,36 +1,54 @@
-<x-layout title="Home">
-    <section class="hero">
-        <div>
-            <p class="eyebrow">Dashboard</p>
-            <h1>Welkom bij Autorijschool De Komeet</h1>
-            <p>Beheer instructeurs en voertuigen volgens de MVC-opdracht. Je rol bepaalt welke acties je mag uitvoeren.</p>
-            <div class="hero-actions">
-                <a class="button" href="{{ route('instructeurs.index') }}">Instructeurs in dienst</a>
-                <a class="button secondary" href="{{ route('voertuigen.alles') }}">Alle voertuigen</a>
-                @if (auth()->user()->canManageVehicles())
-                    <span class="role-card">Je bent ingelogd als {{ auth()->user()->role }} en mag voertuiggegevens wijzigen.</span>
-                @else
-                    <span class="role-card">Je bent ingelogd als instructeur en hebt alleen kijkrechten.</span>
-                @endif
+<x-layout title="Dashboard">
+    <div class="home-dashboard">
+        <section class="dashboard-hero">
+            <div>
+                <p class="home-kicker">Dashboard</p>
+                <h1>Welkom bij Autorijschool Odai</h1>
+                <p>
+                    Beheer de dagelijkse operatie vanuit een helder overzicht. Instructeurs, ziekte/verlof en
+                    voertuigtoewijzingen staan centraal.
+                </p>
+                <div class="home-hero-actions">
+                    <a class="btn btn-home-primary" href="{{ route('instructeurs.index') }}">Instructeurs in dienst</a>
+                    <a class="btn btn-home-ghost" href="{{ route('voertuigen.alles') }}">Alle voertuigen</a>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <section class="dashboard-grid">
-        <a class="dashboard-card" href="{{ route('instructeurs.index') }}">
-            <span class="card-kicker">01</span>
-            <h2>Instructeurs</h2>
-            <p>Bekijk alle instructeurs in dienst, gesorteerd op aantal sterren.</p>
-        </a>
-        <a class="dashboard-card" href="{{ route('voertuigen.alles') }}">
-            <span class="card-kicker">02</span>
-            <h2>Voertuigen</h2>
-            <p>Bekijk toegewezen voertuigen per instructeur, beschikbare voertuigen en alle voertuigen.</p>
-        </a>
-        <article class="dashboard-card">
-            <span class="card-kicker">03</span>
-            <h2>Rechten</h2>
-            <p>Owner en admin hebben volledige toegang. Instructeurs kunnen alleen gegevens bekijken.</p>
-        </article>
-    </section>
+        <section class="home-stats">
+            <article class="home-stat-card">
+                <span>Rol</span>
+                <strong>{{ ucfirst(auth()->user()->role) }}</strong>
+                <p>Ingelogd als {{ auth()->user()->name }}</p>
+            </article>
+            <article class="home-stat-card">
+                <span>Belangrijk</span>
+                <strong>Ziekte/verlof</strong>
+                <p>Maak voertuigen tijdelijk vrij via Instructeurs in dienst.</p>
+            </article>
+            <article class="home-stat-card">
+                <span>Privacy</span>
+                <strong>AVG bewust</strong>
+                <p><a href="{{ route('privacy') }}">Bekijk privacybeleid</a></p>
+            </article>
+        </section>
+
+        <section class="home-feature-grid">
+            <article class="home-feature-card">
+                <h2>Instructeurs</h2>
+                <p>Bekijk instructeurs gesorteerd op sterren en meld ziekte/verlof met directe terugkoppeling.</p>
+                <a href="{{ route('instructeurs.index') }}">Open instructeurs</a>
+            </article>
+            <article class="home-feature-card">
+                <h2>Voertuigen</h2>
+                <p>Controleer welke voertuigen actief zijn, toegewezen zijn of opnieuw beschikbaar zijn.</p>
+                <a href="{{ route('voertuigen.alles') }}">Open voertuigen</a>
+            </article>
+            <article class="home-feature-card">
+                <h2>Veilig werken</h2>
+                <p>Formulieren gebruiken CSRF-beveiliging, servervalidatie en meldingen na acties.</p>
+                <span class="home-feature-chip">MVC</span>
+            </article>
+        </section>
+    </div>
 </x-layout>

@@ -10,11 +10,12 @@ class ExampleTest extends TestCase
 {
     use DatabaseTransactions;
 
-    public function test_guest_wordt_naar_login_gestuurd(): void
+    public function test_guest_ziet_landingpagina(): void
     {
         $response = $this->get('/');
 
-        $response->assertRedirect('/login');
+        $response->assertOk()
+            ->assertSee('Rijschool Vierkante Wielen');
     }
 
     public function test_ingelogde_gebruiker_ziet_homepagina(): void
@@ -22,8 +23,8 @@ class ExampleTest extends TestCase
         $user = User::factory()->create(['role' => 'instructeur']);
 
         $this->actingAs($user)
-            ->get('/')
+            ->get(route('home'))
             ->assertOk()
-            ->assertSee('Welkom bij Autorijschool De Komeet');
+            ->assertSee('Welkom bij Rijschool Vierkante Wielen');
     }
 }

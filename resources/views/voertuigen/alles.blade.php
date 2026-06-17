@@ -1,13 +1,15 @@
 <x-layout title="Alle voertuigen">
-    <section class="page-heading">
+    <section class="app-page-heading">
         <div>
+            <p class="app-page-kicker">Voertuigenbeheer</p>
             <h1>Alle voertuigen</h1>
         </div>
     </section>
 
-    <div class="table-wrap">
-        <table>
-            <thead>
+    <div class="vehicle-table-card">
+        <div class="table-responsive">
+            <table class="table vehicle-table align-middle mb-0">
+                <thead>
                 <tr>
                     <th>Type voertuig</th>
                     <th>Type</th>
@@ -20,29 +22,40 @@
                         <th>Verwijderen</th>
                     @endif
                 </tr>
-            </thead>
-            <tbody>
-                @foreach ($voertuigen as $voertuig)
+                </thead>
+                <tbody>
+                @forelse ($voertuigen as $voertuig)
                     <tr>
-                        <td>{{ $voertuig->TypeVoertuig }}</td>
-                        <td>{{ $voertuig->Type }}</td>
-                        <td>{{ $voertuig->Kenteken }}</td>
+                        <td>
+                            <span class="vehicle-type-pill">{{ $voertuig->TypeVoertuig }}</span>
+                        </td>
+                        <td class="fw-semibold">{{ $voertuig->Type }}</td>
+                        <td><span class="vehicle-plate">{{ $voertuig->Kenteken }}</span></td>
                         <td>{{ \Illuminate\Support\Carbon::parse($voertuig->Bouwjaar)->format('d-m-Y') }}</td>
                         <td>{{ $voertuig->Brandstof }}</td>
-                        <td>{{ $voertuig->Rijbewijscategorie }}</td>
-                        <td>{{ $voertuig->InstructeurNaam ?? '-' }}</td>
+                        <td><span class="vehicle-license-pill">{{ $voertuig->Rijbewijscategorie }}</span></td>
+                        <td>{{ $voertuig->InstructeurNaam ?: '-' }}</td>
                         @if (auth()->user()->canManageVehicles())
-                            <td>
+                            <td class="text-end">
                                 <form method="post" action="{{ route('voertuigen.destroy', $voertuig->Id) }}">
                                     @csrf
                                     @method('DELETE')
-                                    <button class="icon-button danger" type="submit" title="Verwijderen" aria-label="Verwijderen">x</button>
+                                    <button class="btn btn-outline-danger btn-sm vehicle-delete-button" type="submit" title="Verwijderen" aria-label="Verwijderen">
+                                        &times;
+                                    </button>
                                 </form>
                             </td>
                         @endif
                     </tr>
-                @endforeach
-            </tbody>
-        </table>
+                @empty
+                    <tr>
+                        <td colspan="{{ auth()->user()->canManageVehicles() ? 8 : 7 }}" class="text-center text-muted py-4">
+                            Geen voertuigen gevonden.
+                        </td>
+                    </tr>
+                @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </x-layout>

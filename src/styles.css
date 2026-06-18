@@ -21,9 +21,25 @@ body {
     min-height: 100vh;
 }
 
+#root {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
 .app-shell {
     display: flex;
     flex-direction: column;
+}
+
+.auth-page {
+    min-height: calc(100vh - 160px);
+    place-items: center;
+}
+
+.auth-card {
+    width: 100%;
+    max-width: 460px;
 }
 
 .app-navbar {
